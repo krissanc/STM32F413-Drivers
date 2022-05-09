@@ -251,35 +251,32 @@ uint8_t GPIOx_Pin_Read(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber)
 {
 
 	// declare a temporary variable
-	uint8_t read_Data = pGPIOx_Address->GPIOx_IDR >> pinNumber;
+	uint8_t read_Data = (uint8_t)(pGPIOx_Address->GPIOx_IDR >> pinNumber);
 
 	// set the temporary variable to the value at the IDR register at the selected pin
 	read_Data &= 1;
 
-	if( read_Data == 1){
+	if( read_Data == 1 ){
 		return read_Data;
 	}
-	else if ( read_Data == 0){
+	else if ( read_Data == 0 ){
 		return read_Data;
 	}
 
+	return 0;
 }
 
 
+/**** Interrupt ****/
 
-/*
-void GPIOx_Pin_Config();
-
-void GPIOx_Pin_Write(GPIOx_REG_DEF_t *pGPIOx_Address, )
+void interrupt_Clk_Enable(EXTI_REG_DEF_t *pEXTI, SYSCFG_REG_DEF_t *pSYSCFG)
 {
-	// Take the port enable function and enable the clock
-	GPIOx_Port_Enable(pGPIOx_Address);
+	// enable the clock for EXTI and SYSCFG
 
-
+	// set which port goes on which EXTI line in the SYSCFG registers ( between 0 - 15 ) in order to enable a specific pin as an intrpt
 
 
 }
-*/
 
 
 

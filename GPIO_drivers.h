@@ -90,12 +90,7 @@ uint8_t GPIOx_Pin_Read(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber);
 
 
 
-/***** GPIOx Initialization ****/
-void GPIO_Init(GPIOx_HANDLE_t *pGPIOHandle);
-void GPIO_DeInit(void);
 
-/***** GPIOx Clock Controller ****/
-void GPIO_Peri_Clk_Control(GPIOx_REG_DEF_t *pGPIOx, uint8_t en_Or_Di);
 
 /***** GPIOx Reading & Writing ****/
 void GPIO_Read_From_Input_Pin(void);

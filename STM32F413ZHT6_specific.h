@@ -52,11 +52,15 @@ typedef struct{
     volatile uint32_t RCC_AHB1ENR;
     volatile uint32_t RCC_AHB2ENR;
     volatile uint32_t RCC_AHB3ENR;
+    volatile uint32_t RCC_RESERVED4;
     volatile uint32_t RCC_APB1ENR;
     volatile uint32_t RCC_APB2ENR;
+    volatile uint32_t RCC_RESERVED5;
+    volatile uint32_t RCC_RESERVED6;
     volatile uint32_t RCC_AHB1LPENR;
     volatile uint32_t RCC_AHB2LPENR;
     volatile uint32_t RCC_AHB3LPENR;
+    volatile uint32_t RCC_RESERVED7;
     volatile uint32_t RCC_APB1LPENR;
     volatile uint32_t RCC_APB2LPENR;
     volatile uint32_t RCC_BDCR;
@@ -69,8 +73,43 @@ typedef struct{
 
 }RCC_REG_DEF_t;
 
+/***** EXTI REGISTER DEFINITION STRUCTURE *****/
+typedef struct{
+	volatile uint32_t EXTI_IMR;
+	volatile uint32_t EXTI_EMR;
+	volatile uint32_t EXTI_RTSR;
+	volatile uint32_t EXTI_FTSR;
+	volatile uint32_t EXTI_SWIER;
+	volatile uint32_t EXTI_PR;
 
+}EXTI_REG_DEF_t;
 
+typedef struct{
+	volatile uint32_t SYSCFG_MEMRMP;
+	volatile uint32_t SYSCFG_PMC;
+	volatile uint32_t SYSCFG_EXTICR1;
+	volatile uint32_t SYSCFG_EXTICR2;
+	volatile uint32_t SYSCFG_EXTICR3;
+	volatile uint32_t SYSCFG_EXTICR4;
+	volatile uint32_t SYSCFG_CFGR2;
+	volatile uint32_t SYSCFG_CMPCR;
+	volatile uint32_t SYSCFG_RESERVED0;
+	volatile uint32_t SYSCFG_RESERVED1;
+	volatile uint32_t SYSCFG_MCHDLYCR;
+
+}SYSCFG_REG_DEF_t;
+
+typedef struct{
+	volatile uint32_t NVIC_ISER0;
+	volatile uint32_t NVIC_ISER1;
+	volatile uint32_t NVIC_ISER2;
+	volatile uint32_t NVIC_ISER3;
+	volatile uint32_t NVIC_ISER4;
+	volatile uint32_t NVIC_ISER5;
+	volatile uint32_t NVIC_ISER6;
+	volatile uint32_t NVIC_ISER7;
+
+}NVIC_ISER_REG_DEF_t;
 
 
 
@@ -141,6 +180,13 @@ typedef struct{
 #define UART9      (0x40011800UL)
 #define UART10     (0x40011C00UL)
 
+/********* EXTI *********/
+#define		EXTI	(EXTI_REG_DEF_t*)(0x40013C00UL)
+#define		SYSCFG	(SYSCFG_REG_DEF_t*)(0x40013800UL)
+
+/********* NVIC **********/
+#define		NVIC_ICTR		(uint32_t*)(0xE000E004UL)
+#define		NVIC_ISER		(NVIC_ISER_REG_DEF_t*)(0xE000E100UL)
 
 
 
@@ -159,6 +205,9 @@ typedef struct{
 #define     GPIOG_CLK_EN()      (RCC->RCC_AHB1ENR |= ( 1 << 6 ))
 #define     GPIOH_CLK_EN()      (RCC->RCC_AHB1ENR |= ( 1 << 7 ))
 
+#define 	SYSCFG_EN()			(RCC->RCC_APB2ENR |= ( 1 << 14 ))
+#define		EXTI_T_EN()			(RCC->RCC_APB2ENR |= ( 1 << 15 ))
+
 /**** Clock disable macros ****/
 #define     GPIOA_CLK_DIS()      (RCC->RCC_AHB1ENR &= ~( 1 << 0 ))
 #define     GPIOB_CLK_DIS()      (RCC->RCC_AHB1ENR &= ~( 1 << 1 ))
@@ -168,6 +217,8 @@ typedef struct{
 #define     GPIOF_CLK_DIS()      (RCC->RCC_AHB1ENR &= ~( 1 << 5 ))
 #define     GPIOG_CLK_DIS()      (RCC->RCC_AHB1ENR &= ~( 1 << 6 ))
 #define     GPIOH_CLK_DIS()      (RCC->RCC_AHB1ENR &= ~( 1 << 7 ))
+
+
 
 
 /**** Enable / Disable ****/
