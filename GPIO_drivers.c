@@ -251,11 +251,17 @@ uint8_t GPIOx_Pin_Read(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber)
 {
 
 	// declare a temporary variable
-	uint8_t read_Data;
+	uint8_t read_Data = pGPIOx_Address->GPIOx_IDR >> pinNumber;
 
-	read_Data = (pGPIOx_Address->GPIOx_IDR & ( 1 << pinNumber));
+	// set the temporary variable to the value at the IDR register at the selected pin
+	read_Data &= 1;
 
-	return read_Data;
+	if( read_Data == 1){
+		return read_Data;
+	}
+	else if ( read_Data == 0){
+		return read_Data;
+	}
 
 }
 
