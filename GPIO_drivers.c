@@ -254,7 +254,7 @@ void GPIOx_Pin_Toggle(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber)
 {
 
 	// toggle pin
-	pGPIOx_Address->GPIOx_ODR ^= ( 1 << pinNumber);
+	pGPIOx_Address->GPIOx_ODR ^= ( 1 << pinNumber );
 
 }
 
@@ -286,10 +286,6 @@ uint8_t GPIOx_Pin_Read(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber)
 // example interrupt_Config(EXTI, SYSCFG, EXTI0, PORTB, RTFT)
 void interrupt_Config(SYSCFG_REG_DEF_t *pSYSCFG, EXTI_REG_DEF_t *pEXTI, uint8_t EXTI_Line, uint8_t portX, uint8_t edge)
 {
-
-	// enable the EXTI and SYSCFG clocks
-	EXTI_T_CLK_EN();
-	SYSCFG_CLK_EN();
 
 	// enable the interrupt mask for the selected line
 	pEXTI->EXTI_IMR |= ( 1 << EXTI_Line );
@@ -369,9 +365,9 @@ void interrupt_Config(SYSCFG_REG_DEF_t *pSYSCFG, EXTI_REG_DEF_t *pEXTI, uint8_t 
 	}
 
 
-	/**** EXTI LINE & PORT SELECTOR ****/
-	/**** EXTI LINE & PORT SELECTOR ****/
-	/**** EXTI LINE & PORT SELECTOR ****/
+	/**** TRIGGER SELECTOR ****/
+	/**** TRIGGER SELECTOR ****/
+	/**** TRIGGER SELECTOR ****/
 	// set the pin to rising edge, falling edge, or both
 	// this is done in the EXTI register
 	if(edge == RT)
@@ -389,8 +385,14 @@ void interrupt_Config(SYSCFG_REG_DEF_t *pSYSCFG, EXTI_REG_DEF_t *pEXTI, uint8_t 
 		pEXTI->EXTI_FTSR |= ( 1 << EXTI_Line);
 	}
 
-
 }
 
+// IRQ Handler
+void GPIO_IRQ_Handler(uint8_t pinNumber)
+{
+	if(EXTI->EXTI_PR & ( 1 << pinNumber )){
+		EXTI->EXTI_PR |= ( 1 << pinNumber );
+	}
+}
 
 

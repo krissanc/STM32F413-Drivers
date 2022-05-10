@@ -95,6 +95,9 @@ uint8_t GPIOx_Pin_Read(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber);
 // INTERRUPT CONFIG
 void interrupt_Config(SYSCFG_REG_DEF_t *pSYSCFG, EXTI_REG_DEF_t *pEXTI, uint8_t EXTI_Line, uint8_t portX, uint8_t edge);
 
+// GPIO IRQ HANDLER
+void GPIO_IRQ_Handler(uint8_t pinNumber);
+
 
 
 
@@ -105,9 +108,7 @@ void GPIO_Write_To_Output_Pin(void);
 void GPIO_Write_To_Output_Port(void);
 void GPIO_Toggle_Output_Pin(void);
 
-/***** GPIOx IRQ & Interrupt handling ****/
-void GPIO_IRQ_Config(void);
-void GPIO_IRQ_Handler(void);
+
 
 
 
