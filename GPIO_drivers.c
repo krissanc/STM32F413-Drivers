@@ -262,7 +262,7 @@ void GPIOx_Pin_Toggle(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber)
 uint8_t GPIOx_Pin_Read(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber)
 {
 
-	// declare a temporary variable
+	// declare a temporary variable and set it equal to the input data register (shifted to the right) and typecast to 8-bit register
 	uint8_t read_Data = (uint8_t)(pGPIOx_Address->GPIOx_IDR >> pinNumber);
 
 	// set the temporary variable to the value at the IDR register at the selected pin
@@ -279,25 +279,116 @@ uint8_t GPIOx_Pin_Read(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber)
 }
 
 
-/**** Interrupt ****/
 
-void interrupt_Clk_Enable(EXTI_REG_DEF_t *pEXTI, SYSCFG_REG_DEF_t *pSYSCFG)
+
+
+// parameters: #1 EXTI line, #2 which port,
+// example interrupt_Config(EXTI, SYSCFG, EXTI0, PORTB, RTFT)
+void interrupt_Config(SYSCFG_REG_DEF_t *pSYSCFG, EXTI_REG_DEF_t *pEXTI, uint8_t EXTI_Line, uint8_t portX, uint8_t edge)
 {
-	// enable the clock for EXTI and SYSCFG
+
+	// enable the EXTI and SYSCFG clocks
 	EXTI_T_CLK_EN();
 	SYSCFG_CLK_EN();
 
-	// set which port goes on which EXTI line in the SYSCFG registers ( between 0 - 15 ) in order to enable a specific pin as an intrpt
+	// enable the interrupt mask for the selected line
+	pEXTI->EXTI_IMR |= ( 1 << EXTI_Line );
 
 
+	/**** EXTI LINE & PORT SELECTOR ****/
+	/**** EXTI LINE & PORT SELECTOR ****/
+	/**** EXTI LINE & PORT SELECTOR ****/
+	// select which EXTI line the pin is configured to... and enable the selected port
+	// this is done in the SYSCFG EXTICR registers
+	// and enable the IRQ number in the NVIC
+	if(EXTI_Line == EXTI0 ){
+		pSYSCFG->SYSCFG_EXTICR1 |= ( portX << 0 );
+		// also enable the IRQ number in the NVIC
+		NVIC_ISER->NVIC_ISER0 |= ( 1 << 6 );
 
-}
+	}else if(EXTI_Line == EXTI1 ){
+		pSYSCFG->SYSCFG_EXTICR1 |= ( portX << 4 );
+		NVIC_ISER->NVIC_ISER0 |= ( 1 << 7 );
 
-void interrupt_Config()
-{
+	}else if(EXTI_Line == EXTI2 ){
+		pSYSCFG->SYSCFG_EXTICR1 |= ( portX << 8 );
+		NVIC_ISER->NVIC_ISER0 |= ( 1 << 8 );
+
+	}else if(EXTI_Line == EXTI3 ){
+		pSYSCFG->SYSCFG_EXTICR1 |= ( portX << 12 );
+		NVIC_ISER->NVIC_ISER0 |= ( 1 << 9 );
+
+	}else if(EXTI_Line == EXTI4 ){
+		pSYSCFG->SYSCFG_EXTICR2 |= ( portX << 0 );
+		NVIC_ISER->NVIC_ISER0 |= ( 1 << 10 );
+
+	}else if(EXTI_Line == EXTI5 ){
+		pSYSCFG->SYSCFG_EXTICR2 |= ( portX << 4 );
+		NVIC_ISER->NVIC_ISER0 |= ( 1 << 23 );
+
+	}else if(EXTI_Line == EXTI6 ){
+		pSYSCFG->SYSCFG_EXTICR2 |= ( portX << 8 );
+		NVIC_ISER->NVIC_ISER0 |= ( 1 << 23 );
+
+	}else if(EXTI_Line == EXTI7 ){
+		pSYSCFG->SYSCFG_EXTICR2 |= ( portX << 12 );
+		NVIC_ISER->NVIC_ISER0 |= ( 1 << 23 );
+
+	}else if(EXTI_Line == EXTI8 ){
+		pSYSCFG->SYSCFG_EXTICR3 |= ( portX << 0 );
+		NVIC_ISER->NVIC_ISER0 |= ( 1 << 23 );
+
+	}else if(EXTI_Line == EXTI9 ){
+		pSYSCFG->SYSCFG_EXTICR3 |= ( portX << 4 );
+		NVIC_ISER->NVIC_ISER0 |= ( 1 << 23 );
+
+	}else if(EXTI_Line == EXTI10 ){
+		pSYSCFG->SYSCFG_EXTICR3 |= ( portX << 8 );
+		NVIC_ISER->NVIC_ISER1 |= ( 1 << (40%32) );
+
+	}else if(EXTI_Line == EXTI11 ){
+		pSYSCFG->SYSCFG_EXTICR3 |= ( portX << 12 );
+		NVIC_ISER->NVIC_ISER1 |= ( 1 << (40%32) );
+
+	}else if(EXTI_Line == EXTI12 ){
+		pSYSCFG->SYSCFG_EXTICR4 |= ( portX << 0 );
+		NVIC_ISER->NVIC_ISER1 |= ( 1 << (40%32) );
+
+	}else if(EXTI_Line == EXTI13 ){
+		pSYSCFG->SYSCFG_EXTICR4 |= ( portX << 4 );
+		NVIC_ISER->NVIC_ISER1 |= ( 1 << (40%32) );
+
+	}else if(EXTI_Line == EXTI14 ){
+		pSYSCFG->SYSCFG_EXTICR4 |= ( portX << 8 );
+		NVIC_ISER->NVIC_ISER1 |= ( 1 << (40%32) );
+
+	}else if(EXTI_Line == EXTI15 ){
+		pSYSCFG->SYSCFG_EXTICR4 |= ( portX << 12 );
+		NVIC_ISER->NVIC_ISER1 |= ( 1 << (40%32) );
+
+	}
+
+
+	/**** EXTI LINE & PORT SELECTOR ****/
+	/**** EXTI LINE & PORT SELECTOR ****/
+	/**** EXTI LINE & PORT SELECTOR ****/
 	// set the pin to rising edge, falling edge, or both
+	// this is done in the EXTI register
+	if(edge == RT)
+	{
+		pEXTI->EXTI_RTSR |= ( 1 << EXTI_Line);
 
-	// enable the IRQ number
+	}else if (edge == FT)
+	{
+		pEXTI->EXTI_FTSR |= ( 1 << EXTI_Line);
+
+	}else if (edge == RTFT)
+	{
+		// enable both
+		pEXTI->EXTI_RTSR |= ( 1 << EXTI_Line);
+		pEXTI->EXTI_FTSR |= ( 1 << EXTI_Line);
+	}
+
 
 }
 

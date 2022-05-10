@@ -26,8 +26,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-/*** Header files ***/
-#include "GPIO_drivers.h"
+
 
 
 
@@ -84,6 +83,8 @@ typedef struct{
 
 }EXTI_REG_DEF_t;
 
+
+/***** SYSCFG REGISTER DEFINITION STRUCTURE *****/
 typedef struct{
 	volatile uint32_t SYSCFG_MEMRMP;
 	volatile uint32_t SYSCFG_PMC;
@@ -99,6 +100,7 @@ typedef struct{
 
 }SYSCFG_REG_DEF_t;
 
+/***** NVIC ISER REGISTER DEFINITION STRUCTURE *****/
 typedef struct{
 	volatile uint32_t NVIC_ISER0;
 	volatile uint32_t NVIC_ISER1;
@@ -181,12 +183,12 @@ typedef struct{
 #define UART10     (0x40011C00UL)
 
 /********* EXTI *********/
-#define		EXTI	(EXTI_REG_DEF_t*)(0x40013C00UL)
-#define		SYSCFG	(SYSCFG_REG_DEF_t*)(0x40013800UL)
+#define		EXTI	((EXTI_REG_DEF_t*)(0x40013C00UL))
+#define		SYSCFG	((SYSCFG_REG_DEF_t*)(0x40013800UL))
 
 /********* NVIC **********/
-#define		NVIC_ICTR		(uint32_t*)(0xE000E004UL)
-#define		NVIC_ISER		(NVIC_ISER_REG_DEF_t*)(0xE000E100UL)
+#define		NVIC_ICTR			((uint32_t*)(0xE000E004UL))
+#define		NVIC_ISER		((NVIC_ISER_REG_DEF_t*)(0xE000E100UL))
 
 
 
@@ -218,6 +220,9 @@ typedef struct{
 #define     GPIOG_CLK_DIS()      (RCC->RCC_AHB1ENR &= ~( 1 << 6 ))
 #define     GPIOH_CLK_DIS()      (RCC->RCC_AHB1ENR &= ~( 1 << 7 ))
 
+#define 	SYSCFG_CLK_DIS()		(RCC->RCC_APB2ENR &= ~( 1 << 14 ))
+#define		EXTI_T_CLK_DIS()		(RCC->RCC_APB2ENR &= ~( 1 << 15 ))
+
 
 
 
@@ -232,7 +237,6 @@ typedef struct{
 /**** High / Low ****/
 #define     HIGH        1
 #define     LOW       	0
-
 
 /**** Pin Function ****/
 #define     INPUT       0
@@ -255,13 +259,50 @@ typedef struct{
 #define 	PULLUP			1
 #define 	PULLDOWN		2
 
+/**** EXTI Lines ****/
+#define		EXTI0		0
+#define		EXTI1		1
+#define		EXTI2		2
+#define		EXTI3		3
+#define		EXTI4		4
+#define		EXTI5		5
+#define		EXTI6		6
+#define		EXTI7		7
+#define		EXTI8		8
+#define		EXTI9		9
+#define		EXTI10		10
+#define		EXTI11		11
+#define		EXTI12		12
+#define		EXTI13		13
+#define		EXTI14		14
+#define		EXTI15		15
+
+/**** Rising/Falling Trigger ****/
+#define		RT			0
+#define		FT			1
+#define		RTFT		2
+#define		FTRT		2
+
+/**** GPIO PORTS ****/
+#define		PORTA		0
+#define		PORTB		1
+#define		PORTC		2
+#define		PORTD		3
+#define		PORTE		4
+#define		PORTF		5
+#define		PORTG		6
+#define		PORTH		7
 
 
 
+/********************************************************************************
+******** Includes ***************************************************************
+*********************************************************************************/
 
-
-
-
+/*** Header files ***/
+#include "GPIO_drivers.h"
 
 /** End of Compiler directive ***/
 #endif /* STM32F413ZHT6_SPECIFIC_H_ */
+
+
