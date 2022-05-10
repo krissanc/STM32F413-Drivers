@@ -85,6 +85,9 @@ void GPIOx_Pin_Config(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t in_out_mode,
 // PIN WRITE
 void GPIOx_Pin_Write(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber, uint8_t High_or_Low);
 
+// PIN TOGGLE
+void GPIOx_Pin_Toggle(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber);
+
 // PIN READ
 uint8_t GPIOx_Pin_Read(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber);
 

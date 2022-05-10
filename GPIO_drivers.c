@@ -9,7 +9,7 @@
 #include "GPIO_drivers.h"
 
 
-/*** Port Enable Function ***/
+/*** Port Clock Enable Function ***/
 void GPIOx_Port_Enable(GPIOx_REG_DEF_t *pGPIOx_Address)
 {
 
@@ -48,10 +48,9 @@ void GPIOx_Port_Enable(GPIOx_REG_DEF_t *pGPIOx_Address)
 		GPIOH_CLK_EN();
 	}
 
-
 }
 
-/*** Port Disable Function ***/
+/*** Port Clock Disable Function ***/
 void GPIOx_Port_Disable(GPIOx_REG_DEF_t *pGPIOx_Address)
 {
 
@@ -230,8 +229,12 @@ void GPIOx_Pin_Config(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t in_out_mode,
 }
 
 /*** Pin Configuration Reset Function ***/
+void GPIOx_Pin_Reset(void)
+{
 
-/**** Pin Write - Toggle pin HIGH or LOW ****/
+}
+
+/**** Pin Write ****/
 void GPIOx_Pin_Write(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber, uint8_t High_or_Low)
 {
 	// clear register slot
@@ -243,6 +246,15 @@ void GPIOx_Pin_Write(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber, uint8_t
 	if( High_or_Low == HIGH){
 		pGPIOx_Address->GPIOx_ODR |= ( 1 << pinNumber);
 	}
+
+}
+
+/**** Pin Toggle ****/
+void GPIOx_Pin_Toggle(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber)
+{
+
+	// toggle pin
+	pGPIOx_Address->GPIOx_ODR ^= ( 1 << pinNumber);
 
 }
 
@@ -272,9 +284,20 @@ uint8_t GPIOx_Pin_Read(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber)
 void interrupt_Clk_Enable(EXTI_REG_DEF_t *pEXTI, SYSCFG_REG_DEF_t *pSYSCFG)
 {
 	// enable the clock for EXTI and SYSCFG
+	EXTI_T_CLK_EN();
+	SYSCFG_CLK_EN();
 
 	// set which port goes on which EXTI line in the SYSCFG registers ( between 0 - 15 ) in order to enable a specific pin as an intrpt
 
+
+
+}
+
+void interrupt_Config()
+{
+	// set the pin to rising edge, falling edge, or both
+
+	// enable the IRQ number
 
 }
 

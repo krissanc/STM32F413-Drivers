@@ -205,8 +205,8 @@ typedef struct{
 #define     GPIOG_CLK_EN()      (RCC->RCC_AHB1ENR |= ( 1 << 6 ))
 #define     GPIOH_CLK_EN()      (RCC->RCC_AHB1ENR |= ( 1 << 7 ))
 
-#define 	SYSCFG_EN()			(RCC->RCC_APB2ENR |= ( 1 << 14 ))
-#define		EXTI_T_EN()			(RCC->RCC_APB2ENR |= ( 1 << 15 ))
+#define 	SYSCFG_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 14 ))
+#define		EXTI_T_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 15 ))
 
 /**** Clock disable macros ****/
 #define     GPIOA_CLK_DIS()      (RCC->RCC_AHB1ENR &= ~( 1 << 0 ))
