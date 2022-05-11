@@ -92,10 +92,11 @@ typedef struct{
 	volatile uint32_t SYSCFG_EXTICR2;
 	volatile uint32_t SYSCFG_EXTICR3;
 	volatile uint32_t SYSCFG_EXTICR4;
+	volatile uint32_t SYSCFG_RESERVED0;
 	volatile uint32_t SYSCFG_CFGR2;
 	volatile uint32_t SYSCFG_CMPCR;
-	volatile uint32_t SYSCFG_RESERVED0;
 	volatile uint32_t SYSCFG_RESERVED1;
+	volatile uint32_t SYSCFG_RESERVED2;
 	volatile uint32_t SYSCFG_MCHDLYCR;
 
 }SYSCFG_REG_DEF_t;

@@ -89,8 +89,10 @@ void GPIOx_Port_Disable(GPIOx_REG_DEF_t *pGPIOx_Address)
 		GPIOH_CLK_DIS();
 	}
 
-
 }
+
+
+
 
 /*** Pin Configuration Function ***/
 void GPIOx_Pin_Config(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t in_out_mode,
@@ -374,10 +376,12 @@ void interrupt_Config(SYSCFG_REG_DEF_t *pSYSCFG, EXTI_REG_DEF_t *pEXTI, uint8_t 
 	if(edge == RT)
 	{
 		pEXTI->EXTI_RTSR |= ( 1 << EXTI_Line);
+		pEXTI->EXTI_FTSR &= ~( 1 << EXTI_Line);
 
 	}else if (edge == FT)
 	{
 		pEXTI->EXTI_FTSR |= ( 1 << EXTI_Line);
+		pEXTI->EXTI_RTSR &= ~( 1 << EXTI_Line);
 
 	}else if (edge == RTFT)
 	{
