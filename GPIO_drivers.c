@@ -234,6 +234,8 @@ void GPIOx_Pin_Reset(void)
 
 }
 
+
+
 /**** Pin Write ****/
 void GPIOx_Pin_Write(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber, uint8_t High_or_Low)
 {
@@ -252,7 +254,6 @@ void GPIOx_Pin_Write(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber, uint8_t
 /**** Pin Toggle ****/
 void GPIOx_Pin_Toggle(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber)
 {
-
 	// toggle pin
 	pGPIOx_Address->GPIOx_ODR ^= ( 1 << pinNumber );
 
@@ -283,7 +284,7 @@ uint8_t GPIOx_Pin_Read(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber)
 
 
 // parameters: #1 EXTI line, #2 which port,
-// example interrupt_Config(EXTI, SYSCFG, EXTI0, PORTB, RTFT)
+// example: interrupt_Config(EXTI, SYSCFG, EXTI0, PORTB, RTFT)
 void interrupt_Config(SYSCFG_REG_DEF_t *pSYSCFG, EXTI_REG_DEF_t *pEXTI, uint8_t EXTI_Line, uint8_t portX, uint8_t edge)
 {
 
