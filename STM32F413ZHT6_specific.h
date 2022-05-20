@@ -206,6 +206,9 @@ typedef struct{
 
 #define		NVIC_ICER			((NVIC_ICER_REG_DEF_t*)(0xE000E180UL))
 
+/********* SPI **********/
+#define		SPI1				((SPIx_REG_DEF_t*)0x40013000UL)
+
 
 
 
@@ -226,6 +229,13 @@ typedef struct{
 #define 	SYSCFG_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 14 ))
 #define		EXTI_T_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 15 ))
 
+#define		SPI1_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 12 ))
+#define		SPI2_CLK_EN()		(RCC->RCC_APB1ENR |= ( 1 << 14 ))
+#define		SPI3_CLK_EN()		(RCC->RCC_APB1ENR |= ( 1 << 15 ))
+#define		SPI4_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 13 ))
+#define		SPI5_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 20 ))
+
+
 /**** Clock disable macros ****/
 #define     GPIOA_CLK_DIS()      (RCC->RCC_AHB1ENR &= ~( 1 << 0 ))
 #define     GPIOB_CLK_DIS()      (RCC->RCC_AHB1ENR &= ~( 1 << 1 ))
@@ -238,6 +248,12 @@ typedef struct{
 
 #define 	SYSCFG_CLK_DIS()		(RCC->RCC_APB2ENR &= ~( 1 << 14 ))
 #define		EXTI_T_CLK_DIS()		(RCC->RCC_APB2ENR &= ~( 1 << 15 ))
+
+#define		SPI1_CLK_DIS()			(RCC->RCC_APB2ENR &= ~( 1 << 12 ))
+#define		SPI2_CLK_DIS()			(RCC->RCC_APB1ENR &= ~( 1 << 14 ))
+#define		SPI3_CLK_DIS()			(RCC->RCC_APB1ENR &= ~( 1 << 15 ))
+#define		SPI4_CLK_DIS()			(RCC->RCC_APB2ENR &= ~( 1 << 13 ))
+#define		SPI5_CLK_DIS()			(RCC->RCC_APB2ENR &= ~( 1 << 20 ))
 
 
 
@@ -298,6 +314,12 @@ typedef struct{
 #define		FT			1
 #define		RTFT		2
 #define		FTRT		2
+
+/**** SPI Macros ****/
+
+
+
+
 
 /**** GPIO PORTS ****/
 #define		PORTA		0
@@ -453,6 +475,44 @@ typedef struct{
 #define		PH14		127
 #define		PH15		128
 
+/*** Alternate Functions ***/
+#define		AF0			0
+#define		AF1			1
+#define		AF2			2
+#define		AF3			3
+#define		AF4			4
+#define		AF5			5
+#define		AF6			6
+#define		AF7			7
+#define		AF8			8
+#define		AF9			9
+#define		AF10		10
+#define		AF11		11
+#define		AF12		12
+#define		AF13		13
+#define		AF14		14
+#define		AF15		15
+
+/*** ARFL ***/
+#define		AFRL0			0
+#define		AFRL1			4
+#define		AFRL2			8
+#define		AFRL3			12
+#define		AFRL4			16
+#define		AFRL5			20
+#define		AFRL6			24
+#define		AFRL7			28
+
+/*** ARFH ***/
+#define		AFRH8			0
+#define		AFRH9			4
+#define		AFRH10			8
+#define		AFRH11			12
+#define		AFRH12			16
+#define		AFRH13			20
+#define		AFRH14			24
+#define		AFRH15			28
+
 
 /********************************************************************************
 ******** Includes ***************************************************************
@@ -461,6 +521,7 @@ typedef struct{
 /*** Header files ***/
 #include "GPIO_drivers.h"
 #include "LCD_drivers.h"
+#include "SPI_drivers.h"
 
 /** End of Compiler directive ***/
 #endif /* STM32F413ZHT6_SPECIFIC_H_ */
