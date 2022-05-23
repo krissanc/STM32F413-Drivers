@@ -91,6 +91,10 @@ void GPIOx_Pin_Toggle(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber);
 // PIN READ
 uint8_t GPIOx_Pin_Read(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber);
 
+// ALTERNATE FUNCTION PIN SETUP
+void GPIOx_Alt_Pin_Config(GPIOx_REG_DEF_t *pGPIOx, uint8_t pin_Num, uint8_t alt_Pin_Config);
+
+
 
 // INTERRUPT CONFIG
 void interrupt_Config(SYSCFG_REG_DEF_t *pSYSCFG, EXTI_REG_DEF_t *pEXTI, uint8_t EXTI_Line, uint8_t portX, uint8_t edge);

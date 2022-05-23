@@ -281,7 +281,18 @@ uint8_t GPIOx_Pin_Read(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber)
 	return 0;
 }
 
+void GPIOx_Alt_Pin_Config(GPIOx_REG_DEF_t *pGPIOx, uint8_t pin_Num, uint8_t alt_Pin_Config)
+{
+	if(pin_Num <= 7)
+	{
+		pGPIOx->GPIOx_AFRL |= ( alt_Pin_Config << 4 * pin_Num);
+	}
+	else if(pin_Num >= 8)
+	{
+		pGPIOx->GPIOx_AFRH |= ( alt_Pin_Config << 4 * pin_Num);
+	}
 
+}
 
 
 

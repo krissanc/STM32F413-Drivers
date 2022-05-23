@@ -9,6 +9,7 @@
 #define SPI_DRIVERS_H_
 
 #include "STM32F413ZHT6_specific.h"
+#include <string.h>
 
 // typedef structs for all registers of interest
 // then tie them all together with a handle struct
@@ -26,10 +27,25 @@ typedef struct{
 
 }SPIx_REG_DEF_t;
 
+typedef struct{
+
+	SPIx_REG_DEF_t 	*pSPIx;
+	uint8_t 		*pTxBuffer;
+	uint8_t 		*pRxBuffer;
+	uint32_t 		txLen;
+	uint32_t 		RxLen;
+	uint8_t 		TxState;
+	uint8_t 		RxState;
+
+}SPI_HANDLE_t;
 
 
 
 /*** SPI driver Macros ***/
+
+/*** Slave / Master Mode ***/
+#define 	SPI_MASTER_MODE			1
+#define 	SPI_SLAVE_MODE			0
 
 /*** for the CR1 register, bit-15 chooses full duplex or half duplex ***/
 #define		SPI_DEVI_MODE_FD		0
@@ -53,9 +69,7 @@ typedef struct{
 #define		SPI_LEADING_EDGE		0
 #define		SPI_TRAILING_EDGE		1
 
-/*** Slave / Master Mode ***/
-#define 	SPI_MASTER_MODE			1
-#define 	SPI_SLAVE_MODE			0
+
 
 /*** CR1 Register ***/
 #define		SPI_CR1_CPHA			0
@@ -72,6 +86,13 @@ typedef struct{
 #define		SPI_CR1_CRCEN			13
 #define		SPI_CR1_BIDIOE			14
 #define		SPI_CR1_BIDIMODE		15
+
+/*** CR2 Register ***/
+#define		SPI_CR2_RXDMAEN			0
+#define		SPI_CR2_TXDMAEN			1
+#define		SPI_CR2_SSOE			2
+
+
 
 /*** SPI status register ***/
 #define		SPI_SR_RXNE			0
@@ -90,13 +111,17 @@ typedef struct{
  * Function Prototypes *
  *****/
 
-void SPIx_Init(SPIx_REG_DEF_t *pSPIx, uint8_t deviceMode, uint8_t busConfig, uint8_t clkPol, uint8_t clkPha);
+void SPIx_Init(SPIx_REG_DEF_t *pSPIx, uint8_t deviceMode, uint8_t busConfig, uint8_t SPI_Speed, uint8_t clkPol, uint8_t clkPha);
 
-void sendData(SPIx_REG_DEF_t* pSPIx, uint8_t *pTxBuffer, uint32_t len);
+void SPIx_SendData(SPIx_REG_DEF_t* pSPIx, uint8_t *pTxBuffer, uint32_t len);
+
+void SPIx_ReceiveData(SPIx_REG_DEF_t* pSPIx, uint8_t *pRxBuffer, uint32_t len);
 
 void set_SPE(SPIx_REG_DEF_t *pSPIx, uint8_t set_reset);
 
 void set_SSM_SSI(SPIx_REG_DEF_t *pSPIx, uint8_t set_SSM, uint8_t set_SSI );
+
+void set_SPI_CR2(SPIx_REG_DEF_t *pSPIx, uint8_t bit_Field, uint8_t set_reset );
 
 
 
