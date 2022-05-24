@@ -178,6 +178,12 @@ typedef struct{
 **** APB1 Bus *****************************
 **/
 
+/********* I2C *********/
+#define		I2C1		((I2C_REG_DEF_t*)(0x40005400UL))
+#define		I2C2		((I2C_REG_DEF_t*)(0x40005800UL))
+#define		I2C3		((I2C_REG_DEF_t*)(0x40005C00UL))
+
+
 /********* USART *********/
 #define USART2      (0x40004400UL)
 #define USART3      (0x40004800UL)
@@ -208,6 +214,9 @@ typedef struct{
 
 /********* SPI **********/
 #define		SPI1				((SPIx_REG_DEF_t*)0x40013000UL)
+#define		SPI4				((SPIx_REG_DEF_t*)0x40013400UL)
+
+
 
 
 
@@ -235,16 +244,20 @@ typedef struct{
 #define		SPI4_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 13 ))
 #define		SPI5_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 20 ))
 
+#define		I2C1_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 21 ))
+#define		I2C2_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 22 ))
+#define		I2C3_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 23 ))
+
 
 /**** Clock disable macros ****/
-#define     GPIOA_CLK_DIS()      (RCC->RCC_AHB1ENR &= ~( 1 << 0 ))
-#define     GPIOB_CLK_DIS()      (RCC->RCC_AHB1ENR &= ~( 1 << 1 ))
-#define     GPIOC_CLK_DIS()      (RCC->RCC_AHB1ENR &= ~( 1 << 2 ))
-#define     GPIOD_CLK_DIS()      (RCC->RCC_AHB1ENR &= ~( 1 << 3 ))
-#define     GPIOE_CLK_DIS()      (RCC->RCC_AHB1ENR &= ~( 1 << 4 ))
-#define     GPIOF_CLK_DIS()      (RCC->RCC_AHB1ENR &= ~( 1 << 5 ))
-#define     GPIOG_CLK_DIS()      (RCC->RCC_AHB1ENR &= ~( 1 << 6 ))
-#define     GPIOH_CLK_DIS()      (RCC->RCC_AHB1ENR &= ~( 1 << 7 ))
+#define     GPIOA_CLK_DIS()    	  	(RCC->RCC_AHB1ENR &= ~( 1 << 0 ))
+#define     GPIOB_CLK_DIS()    	  	(RCC->RCC_AHB1ENR &= ~( 1 << 1 ))
+#define     GPIOC_CLK_DIS()    	  	(RCC->RCC_AHB1ENR &= ~( 1 << 2 ))
+#define     GPIOD_CLK_DIS()     	(RCC->RCC_AHB1ENR &= ~( 1 << 3 ))
+#define     GPIOE_CLK_DIS()    	    (RCC->RCC_AHB1ENR &= ~( 1 << 4 ))
+#define     GPIOF_CLK_DIS()    	    (RCC->RCC_AHB1ENR &= ~( 1 << 5 ))
+#define     GPIOG_CLK_DIS()   	    (RCC->RCC_AHB1ENR &= ~( 1 << 6 ))
+#define     GPIOH_CLK_DIS()   	    (RCC->RCC_AHB1ENR &= ~( 1 << 7 ))
 
 #define 	SYSCFG_CLK_DIS()		(RCC->RCC_APB2ENR &= ~( 1 << 14 ))
 #define		EXTI_T_CLK_DIS()		(RCC->RCC_APB2ENR &= ~( 1 << 15 ))
@@ -254,6 +267,10 @@ typedef struct{
 #define		SPI3_CLK_DIS()			(RCC->RCC_APB1ENR &= ~( 1 << 15 ))
 #define		SPI4_CLK_DIS()			(RCC->RCC_APB2ENR &= ~( 1 << 13 ))
 #define		SPI5_CLK_DIS()			(RCC->RCC_APB2ENR &= ~( 1 << 20 ))
+
+#define		I2C1_CLK_DIS()			(RCC->RCC_APB2ENR &= ~( 1 << 21 ))
+#define		I2C2_CLK_DIS()			(RCC->RCC_APB2ENR &= ~( 1 << 22 ))
+#define		I2C3_CLK_DIS()			(RCC->RCC_APB2ENR &= ~( 1 << 23 ))
 
 
 
@@ -536,6 +553,7 @@ typedef struct{
 #include "GPIO_drivers.h"
 #include "LCD_drivers.h"
 #include "SPI_drivers.h"
+#include "I2C_drivers.h"
 
 /** End of Compiler directive ***/
 #endif /* STM32F413ZHT6_SPECIFIC_H_ */
