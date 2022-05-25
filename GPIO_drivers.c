@@ -1,7 +1,7 @@
 /*
  * GPIO_drivers.c
  *
- *  Created on: 6 maj 2022
+ *  Created on: 6 may 2022
  *      Author: krcur
  */
 

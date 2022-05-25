@@ -17,6 +17,13 @@
  */
 
 
+/*** Standard libraries ***/
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+
+/*** MCU Specific Header File ***/
 #include "STM32F413ZHT6_specific.h"
 
 
@@ -24,70 +31,22 @@
 int main(void)
 {
 
-	// initialize all the pins required for SPI1 - (Alternate function 5)
-	// enable the port clock on the AHB1 bus
-	GPIOx_Port_Enable(GPIOA);
 
-	// pin config for pin 4 - NSS
-	GPIOx_Pin_Config(GPIOA, ALT_FUNC, PUSHPULL, HIGH_SPEED, NOPUPD, 4);
-	GPIOx_Alt_Pin_Config(GPIOA, 4, AF5);
-
-	// pin config for pin 5 - SCK
-	GPIOx_Pin_Config(GPIOA, ALT_FUNC, PUSHPULL, HIGH_SPEED, NOPUPD, 5);
-	GPIOx_Alt_Pin_Config(GPIOA, 5, AF5);
-
-	// pin config for pin 6 - MISO
-	GPIOx_Pin_Config(GPIOA, ALT_FUNC, PUSHPULL, HIGH_SPEED, NOPUPD, 6);
-	GPIOx_Alt_Pin_Config(GPIOA, 6, AF5);
-
-	// pin config for pin 7 - MOSI
-	GPIOx_Pin_Config(GPIOA, ALT_FUNC, PUSHPULL, HIGH_SPEED, NOPUPD, 7);
-	GPIOx_Alt_Pin_Config(GPIOA, 7, AF5);
-
-	// setup up the SPI
-	SPIx_Init(SPI1, SPI_MASTER_MODE, SPI_DEVI_MODE_FD, SPI_SPEED_DIV2, SPI_LOW_IDLE_CLK, SPI_LEADING_EDGE);
-
-	// set software management
-	set_SSM_SSI(SPI1, RESET, SET);
-
-	// set the SSOE bit
-	set_SPI_CR2(SPI1, SPI_CR2_SSOE, SET);
-
-	// the data we want to send
-	char userData[] = "Hello world!";
-
-	// set the SPE bit
-	set_SPE(SPI1, SET);
-
-	// send length information to the slave regarding the userData
-	uint8_t dataLen = (uint8_t)(strlen(userData));
-	SPIx_SendData(SPI1, &dataLen, 1);
-
-	// reset the SPE bit
-	set_SPE(SPI1, RESET);
+	GPIOA_CLK_EN();
+	I2C_Clock_Enable(I2C1);
 
 
 
 
-
-
-
-
-	// main 'while' loop
 	while(1)
 	{
 
-		// set the SPE bit
-		set_SPE(SPI1, SET);
 
-		SPIx_SendData(SPI1, (uint8_t*)userData, strlen(userData));
+	}	// end of while(1)
 
-		// reset the SPE bit
-		set_SPE(SPI1, RESET);
 
-		for(int i = 0; i < 1000000; i++);
+} // end of main
 
-	} // end of main 'while' loop
 
-}
+
 

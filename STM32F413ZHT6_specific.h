@@ -179,9 +179,9 @@ typedef struct{
 **/
 
 /********* I2C *********/
-#define		I2C1		((I2C_REG_DEF_t*)(0x40005400UL))
-#define		I2C2		((I2C_REG_DEF_t*)(0x40005800UL))
-#define		I2C3		((I2C_REG_DEF_t*)(0x40005C00UL))
+#define		I2C1		((I2C_REG_DEF_t*)0x40005400UL)
+#define		I2C2		((I2C_REG_DEF_t*)0x40005800UL)
+#define		I2C3		((I2C_REG_DEF_t*)0x40005C00UL)
 
 
 /********* USART *********/
@@ -244,9 +244,9 @@ typedef struct{
 #define		SPI4_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 13 ))
 #define		SPI5_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 20 ))
 
-#define		I2C1_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 21 ))
-#define		I2C2_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 22 ))
-#define		I2C3_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 23 ))
+#define		I2C1_CLK_EN()		(RCC->RCC_APB1ENR |= ( 1 << 21 ))
+#define		I2C2_CLK_EN()		(RCC->RCC_APB1ENR |= ( 1 << 22 ))
+#define		I2C3_CLK_EN()		(RCC->RCC_APB1ENR |= ( 1 << 23 ))
 
 
 /**** Clock disable macros ****/
