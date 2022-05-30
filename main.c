@@ -32,8 +32,9 @@ int main(void)
 {
 
 
-	GPIOA_CLK_EN();
+
 	I2C_Clock_Enable(I2C1);
+	I2C_Setup_Config(I2C1, I2C_FM, 400, I2C_16_9, 0, 0);
 
 
 
