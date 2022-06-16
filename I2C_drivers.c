@@ -98,6 +98,7 @@ void I2C_Setup_Config(I2C_REG_DEF_t *pI2Cx, uint8_t mode, uint16_t scl_Speed, ui
 
 
 	// Set PE bit in the CR1 register to 1 at the end after configuring the I2C peripheral
+	// Ack can only be set if PE = 1, which is required for communication
 	pI2Cx->I2C_CR1 |= ( 1 << I2C_CR1_PE);
 
 
@@ -129,8 +130,8 @@ void I2CMasterSendData(I2C_REG_DEF_t *pI2Cx, uint8_t *pTxBuffer, uint32_t len, u
 	while(len > 0)
 	{
 		while( !(pI2Cx->I2C_SR1 & (1 << I2C_SR1_TxE)) );		// wait for TxE flag to set
-		pI2Cx->I2C_DR = *pTxBuffer;								// write the contents of the buffer array into the Data Register
-		pTxBuffer++;											// increment the buffer address to point to next byte
+		pI2Cx->I2C_DR = *pTxBuffer;								// write the element of the buffer array into the Data Register
+		pTxBuffer++;											// increment the buffer address to point to next element
 		len--;													// decrease the len by 1
 	}
 
@@ -211,7 +212,7 @@ void I2CMasterReceiveData(I2C_REG_DEF_t *pI2Cx, uint8_t *pRxBuffer, uint32_t len
 
 		}
 
-		// Enable Acking again
+		// Enable Ack again
 		pI2Cx->I2C_CR1 |= ( 1 << I2C_CR1_ACK );
 
 	} // End of reading multiple bytes
