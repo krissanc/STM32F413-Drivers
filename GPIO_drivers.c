@@ -99,40 +99,13 @@ void GPIOx_Pin_Config(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t in_out_mode,
 		uint8_t outputType, uint8_t speed, uint8_t pupd, uint8_t pinNumber)
 {
 	/***** SET THE MODER REGISTER *****/
-	if( in_out_mode == INPUT )		// if input
-	{
-		// Clear the register slots first
-		pGPIOx_Address->GPIOx_MODER &= ~( 3 << 2*pinNumber );
-		// set the register to input ( it is 00 by default, so clearing the register slot is enough)
 
-
-	}else if( in_out_mode == OUTPUT )		// if output
-	{
 		// Clear the register slots first
 		pGPIOx_Address->GPIOx_MODER &= ~( 3 << 2*pinNumber );
 
-		// Set the register slot to output mode
-		pGPIOx_Address->GPIOx_MODER |= ( 1 << 2*pinNumber );
+		// Set the corresponding MODER bitfield to its corresponding function
+		pGPIOx_Address->GPIOx_MODER |= ( in_out_mode << 2*pinNumber );
 
-
-	}else if( in_out_mode == ALT_FUNC )		// if alternate function
-	{
-		// Clear the register slots first
-		pGPIOx_Address->GPIOx_MODER &= ~( 3 << 2*pinNumber );
-
-		// Set the register slot to alternate function mode
-		pGPIOx_Address->GPIOx_MODER |= ( 2 << 2*pinNumber );
-
-
-	}else if( in_out_mode == ANALOG )		// if analog mode
-	{
-		// Clear the register slots first
-		pGPIOx_Address->GPIOx_MODER &= ~( 3 << 2*pinNumber );
-
-		// Set the register slot to analog mode
-		pGPIOx_Address->GPIOx_MODER |= ( 3 << 2*pinNumber );
-
-	}
 	/***** END OF MODER REGISTER SET *****/
 
 /***********************************************************************************************/
@@ -237,6 +210,20 @@ void GPIOx_Pin_Reset(void)
 }
 
 
+/*** Alternate function pin configurator function ***/
+void GPIOx_Alt_Pin_Config(GPIOx_REG_DEF_t *pGPIOx, uint8_t pin_Num, uint8_t alt_Pin_Config)
+{
+	if(pin_Num <= 7)
+	{
+		pGPIOx->GPIOx_AFRL |= ( alt_Pin_Config << 4 * pin_Num);
+	}
+
+	else if(pin_Num >= 8)
+	{
+		pGPIOx->GPIOx_AFRH |= ( alt_Pin_Config << 4 * (pin_Num % 8));
+	}
+
+}
 
 /**** Pin Write ****/
 void GPIOx_Pin_Write(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber, uint8_t High_or_Low)
@@ -281,18 +268,7 @@ uint8_t GPIOx_Pin_Read(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber)
 	return 0;
 }
 
-void GPIOx_Alt_Pin_Config(GPIOx_REG_DEF_t *pGPIOx, uint8_t pin_Num, uint8_t alt_Pin_Config)
-{
-	if(pin_Num <= 7)
-	{
-		pGPIOx->GPIOx_AFRL |= ( alt_Pin_Config << 4 * pin_Num);
-	}
-	else if(pin_Num >= 8)
-	{
-		pGPIOx->GPIOx_AFRH |= ( alt_Pin_Config << 4 * pin_Num);
-	}
 
-}
 
 
 

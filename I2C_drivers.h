@@ -26,6 +26,7 @@ typedef struct
 
 }I2C_REG_DEF_t;
 
+
 typedef struct
 {
 	uint32_t I2C_Mode;
@@ -117,7 +118,9 @@ void I2C_Clock_Disable(I2C_REG_DEF_t *pI2C);
 
 void I2C_Setup_Config(I2C_REG_DEF_t *pI2Cx, uint8_t mode, uint16_t scl_Speed, uint8_t duty, uint8_t dev_Addr, uint8_t riseTime);
 
-void I2CMasterSendData(I2C_REG_DEF_t *pI2Cx, uint8_t *pTxBuffer, uint32_t len, uint8_t slaveAddr);
-void I2CMasterReceiveData(I2C_REG_DEF_t *pI2Cx, uint8_t *pRxBuffer, uint32_t len, uint8_t slaveAddr);
+void I2C_Master_SendData(I2C_REG_DEF_t *pI2Cx, uint8_t *pTxBuffer, uint32_t len, uint8_t slaveAddr);
+void I2C_Master_ReceiveData(I2C_REG_DEF_t *pI2Cx, uint8_t *pRxBuffer, uint32_t len, uint8_t slaveAddr);
+
+void I2C_IRQ_Enable(I2C_REG_DEF_t *pI2C, NVIC_ICER_REG_DEF_t *pNVIC_ISER);
 
 #endif /* I2C_DRIVERS_H_ */

@@ -55,9 +55,6 @@ void I2C_Setup_Config(I2C_REG_DEF_t *pI2Cx, uint8_t mode, uint16_t scl_Speed, ui
 	// Set PE bit in the CR1 register to 0 to begin configuring the I2C peripheral
 	pI2Cx->I2C_CR1 &= ~( 1 << I2C_CR1_PE);
 
-	// Set the Ack bit in the CR1 register to enable Acking
-	pI2Cx->I2C_CR1 |= ( 1 << I2C_CR1_ACK );
-
 	// Program the Peripheral Clock Frequency into the CR2 FREQ register
 	pI2Cx->I2C_CR2 |= (16U & 0x1F);
 
@@ -66,7 +63,7 @@ void I2C_Setup_Config(I2C_REG_DEF_t *pI2Cx, uint8_t mode, uint16_t scl_Speed, ui
 	if( mode == I2C_SM )
 	{
 		pI2Cx->I2C_CCR &= ~( 1 << I2C_CCR_FS );
-		value_CCR = ((16*1000)/2*scl_Speed) & 0xFFF;
+		value_CCR = ((16*1000)/(2*scl_Speed)) & 0xFFF;
 		pI2Cx->I2C_CCR |= value_CCR;
 
 	}
@@ -101,11 +98,14 @@ void I2C_Setup_Config(I2C_REG_DEF_t *pI2Cx, uint8_t mode, uint16_t scl_Speed, ui
 	// Ack can only be set if PE = 1, which is required for communication
 	pI2Cx->I2C_CR1 |= ( 1 << I2C_CR1_PE);
 
+	// Set the Ack bit in the CR1 register to enable Ack
+	pI2Cx->I2C_CR1 |= ( 1 << I2C_CR1_ACK );
+
 
 } // End of Setup Config Function
 
 
-void I2CMasterSendData(I2C_REG_DEF_t *pI2Cx, uint8_t *pTxBuffer, uint32_t len, uint8_t slaveAddr)
+void I2C_Master_SendData(I2C_REG_DEF_t *pI2Cx, uint8_t *pTxBuffer, uint32_t len, uint8_t slaveAddr)
 {
 	// Generate START condition
 	pI2Cx->I2C_CR1 |= ( 1 << I2C_CR1_START);
@@ -122,7 +122,7 @@ void I2CMasterSendData(I2C_REG_DEF_t *pI2Cx, uint8_t *pTxBuffer, uint32_t len, u
 	while( !( pI2Cx->I2C_SR1 & (1 << I2C_SR1_ADDR) ) );
 
 	// Clear the ADDR flag by reading from SR1 register and SR2 register (use dummy variables)
-	uint32_t dummyRead = pI2Cx->I2C_SR1;
+	uint32_t volatile dummyRead = pI2Cx->I2C_SR1;
 	dummyRead = pI2Cx->I2C_SR2;
 
 	// Send the data
@@ -146,7 +146,7 @@ void I2CMasterSendData(I2C_REG_DEF_t *pI2Cx, uint8_t *pTxBuffer, uint32_t len, u
 
 }
 
-void I2CMasterReceiveData(I2C_REG_DEF_t *pI2Cx, uint8_t *pRxBuffer, uint32_t len, uint8_t slaveAddr)
+void I2C_Master_ReceiveData(I2C_REG_DEF_t *pI2Cx, uint8_t *pRxBuffer, uint32_t len, uint8_t slaveAddr)
 {
 	// Generate START condition
 	pI2Cx->I2C_CR1 |= ( 1 << I2C_CR1_START);
@@ -172,7 +172,7 @@ void I2CMasterReceiveData(I2C_REG_DEF_t *pI2Cx, uint8_t *pRxBuffer, uint32_t len
 		pI2Cx->I2C_CR1 |= ( 1 << I2C_CR1_STOP );
 
 		// Clear the ADDR flag by reading from SR1 register and SR2 register (use dummy variables)
-		uint32_t dummyRead = pI2Cx->I2C_SR1;
+		uint32_t volatile dummyRead = pI2Cx->I2C_SR1;
 		dummyRead = pI2Cx->I2C_SR2;
 
 		// Wait until RxNE flag becomes 1
@@ -187,7 +187,7 @@ void I2CMasterReceiveData(I2C_REG_DEF_t *pI2Cx, uint8_t *pRxBuffer, uint32_t len
 	if( len > 1 )
 	{
 		// Clear the ADDR flag by reading from SR1 register and SR2 register (use dummy variables)
-		uint32_t dummyRead = pI2Cx->I2C_SR1;
+		uint32_t volatile dummyRead = pI2Cx->I2C_SR1;
 		dummyRead = pI2Cx->I2C_SR2;
 
 		//
@@ -218,6 +218,41 @@ void I2CMasterReceiveData(I2C_REG_DEF_t *pI2Cx, uint8_t *pRxBuffer, uint32_t len
 	} // End of reading multiple bytes
 
 
+}	// End of Master_ReceiveData
+
+void I2C_IRQ_Enable(I2C_REG_DEF_t *pI2C, NVIC_ICER_REG_DEF_t *pNVIC_ISER)
+{
+	// You need to know which I2C it is because each I2C has its own corresponding EXTI line
+	// And I2C is connected directly into the NVIC, which means it needs to be enabled
+	// with its corresponding number
+
+	// Touch the corresponding NVIC ISER register
+	if(pI2C == I2C1)
+	{
+		// Event Enable (position 31)
+		pNVIC_ISER->NVIC_ISER0 |= ( 1 << 31);
+		// Error Enable (position 32)
+		pNVIC_ISER->NVIC_ISER1 |= ( 1 << 1);
+
+	}
+
+	else if(pI2C == I2C2)
+	{
+		// Event Enable (position 33)
+		pNVIC_ISER->NVIC_ISER1 |= ( 1 << 2);
+		// Error Enable (position 34)
+		pNVIC_ISER->NVIC_ISER1 |= ( 1 << 3);
+
+	}
+
+	else if(pI2C == I2C3)
+	{
+		// Event Enable (position 72)
+		pNVIC_ISER->NVIC_ISER2 |= ( 1 << 8);
+		// Error Enable (position 73)
+		pNVIC_ISER->NVIC_ISER2 |= ( 1 << 9);
+
+	}
 
 
 }

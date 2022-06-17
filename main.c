@@ -32,9 +32,37 @@ int main(void)
 {
 
 
+	// Setup the pins on port B for alternate function 4 (AF4 = I2C)
+	// Activate the clock for port B
+	GPIOx_Port_Enable(GPIOB);
 
+	// Set PB8 to be I2C1_SCL
+	GPIOx_Pin_Config(GPIOB, ALT_FUNC, PUSHPULL, FAST_SPEED, PULLUP, 8);
+	GPIOx_Alt_Pin_Config(GPIOB, 8, AF4);
+
+	// Set PB9 to be I2C1_SDA
+	GPIOx_Pin_Config(GPIOB, ALT_FUNC, PUSHPULL, FAST_SPEED, PULLUP, 9);
+	GPIOx_Alt_Pin_Config(GPIOB, 9, AF4);
+
+
+
+	// Enable and configure I2C1
+	// Enable I2C1 clock
 	I2C_Clock_Enable(I2C1);
-	I2C_Setup_Config(I2C1, I2C_FM, 400, I2C_16_9, 0, 0);
+
+	// Configure I2C1 registers to desired specifications
+	I2C_Setup_Config(I2C1, I2C_SM, 200, I2C_2, 0, 0);
+
+
+	// Define some data to transmit
+	uint8_t userData[] = {"Hello World!"};
+
+	uint32_t len = ( sizeof(userData) / sizeof(userData[0]) ) ;
+	uint8_t slaveAddr = 0x00;
+
+
+
+
 
 
 
@@ -42,6 +70,8 @@ int main(void)
 	while(1)
 	{
 
+		I2C_Master_SendData(I2C1, &userData[0], len, slaveAddr);
+		for(int i = 0; i < 1000000; i++);
 
 	}	// end of while(1)
 
