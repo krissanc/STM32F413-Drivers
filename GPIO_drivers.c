@@ -228,13 +228,14 @@ void GPIOx_Alt_Pin_Config(GPIOx_REG_DEF_t *pGPIOx, uint8_t pin_Num, uint8_t alt_
 /**** Pin Write ****/
 void GPIOx_Pin_Write(GPIOx_REG_DEF_t *pGPIOx_Address, uint8_t pinNumber, uint8_t High_or_Low)
 {
-	// clear register slot
-	pGPIOx_Address->GPIOx_ODR &= ~( 1 << pinNumber);
+	// LOW
+	if(High_or_Low == LOW)
+	{
+		pGPIOx_Address->GPIOx_ODR &= ~( 1 << pinNumber);
+	}
 
-	// toggle pin OFF
-
-	// toggle pin ON
-	if( High_or_Low == HIGH){
+	// HIGH
+	else if( High_or_Low == HIGH){
 		pGPIOx_Address->GPIOx_ODR |= ( 1 << pinNumber);
 	}
 

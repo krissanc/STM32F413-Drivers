@@ -13,8 +13,30 @@
 
 
 
+typedef struct
+{
+	uint8_t port;
+	uint8_t pin;
 
-void LCD_Init(uint8_t RS, uint8_t RW, uint8_t EN, uint8_t D4, uint8_t D5, uint8_t D6, uint8_t D7);
+}LCD_SUB_PINOUT_t;
+
+typedef struct
+{
+	LCD_SUB_PINOUT_t LCD_RS;
+	LCD_SUB_PINOUT_t LCD_RW;
+	LCD_SUB_PINOUT_t LCD_EN;
+	LCD_SUB_PINOUT_t LCD_D4;
+	LCD_SUB_PINOUT_t LCD_D5;
+	LCD_SUB_PINOUT_t LCD_D6;
+	LCD_SUB_PINOUT_t LCD_D7;
+}LCD_PINOUT_t;
+
+
+
+
+// Function Prototypes
+
+void LCD_Init(LCD_PINOUT_t *pLCD, uint8_t RS, uint8_t RW, uint8_t EN, uint8_t D4, uint8_t D5, uint8_t D6, uint8_t D7);
 void LCD_Write(uint8_t data);
 
 

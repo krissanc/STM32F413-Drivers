@@ -31,7 +31,7 @@
 
 
 /********************************************************************************
-******** Register Structs ***************************************************************
+******** Register Structs *******************************************************
 *********************************************************************************/
 
 /**** RCC REGISTER DEFINITION STRUCT *****/
@@ -185,26 +185,26 @@ typedef struct{
 
 
 /********* USART *********/
-#define USART2      (0x40004400UL)
-#define USART3      (0x40004800UL)
-#define UART4       (0x40004C00UL)
-#define UART5       (0x40005000UL)
-#define UART7       (0x40007800UL)
-#define UART8       (0x40007C00UL)
+#define USART2      ((USART_REG_DEF_t*)(0x40004400UL))
+#define USART3      ((USART_REG_DEF_t*)(0x40004800UL))
+#define UART4       ((USART_REG_DEF_t*)(0x40004C00UL))
+#define UART5       ((USART_REG_DEF_t*)(0x40005000UL))
+#define UART7       ((USART_REG_DEF_t*)(0x40007800UL))
+#define UART8       ((USART_REG_DEF_t*)(0x40007C00UL))
 
 /**
 **** APB2 Bus *****************************
 **/
 
 /********* USART *********/
-#define USART1     (0x40011000UL)
-#define USART6     (0x40011400UL)
-#define UART9      (0x40011800UL)
-#define UART10     (0x40011C00UL)
+#define 	USART1     ((USART_REG_DEF_t*)(0x40011000UL))
+#define 	USART6     ((USART_REG_DEF_t*)(0x40011400UL))
+#define 	UART9      ((USART_REG_DEF_t*)(0x40011800UL))
+#define 	UART10     ((USART_REG_DEF_t*)(0x40011C00UL))
 
 /********* EXTI *********/
-#define		EXTI	((EXTI_REG_DEF_t*)(0x40013C00UL))
-#define		SYSCFG	((SYSCFG_REG_DEF_t*)(0x40013800UL))
+#define		EXTI		((EXTI_REG_DEF_t*)(0x40013C00UL))
+#define		SYSCFG		((SYSCFG_REG_DEF_t*)(0x40013800UL))
 
 /********* NVIC **********/
 #define		NVIC_ICTR			((uint32_t*)(0xE000E004UL))
@@ -248,6 +248,19 @@ typedef struct{
 #define		I2C2_CLK_EN()		(RCC->RCC_APB1ENR |= ( 1 << 22 ))
 #define		I2C3_CLK_EN()		(RCC->RCC_APB1ENR |= ( 1 << 23 ))
 
+#define		USART1_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 4 ))
+#define		USART2_CLK_EN()		(RCC->RCC_APB1ENR |= ( 1 << 17 ))
+#define		USART3_CLK_EN()		(RCC->RCC_APB1ENR |= ( 1 << 18 ))
+#define		UART4_CLK_EN()		(RCC->RCC_APB1ENR |= ( 1 << 19 ))
+#define		UART5_CLK_EN()		(RCC->RCC_APB1ENR |= ( 1 << 20 ))
+#define		USART6_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 5 ))
+#define		UART7_CLK_EN()		(RCC->RCC_APB1ENR |= ( 1 << 30 ))
+#define		UART8_CLK_EN()		(RCC->RCC_APB1ENR |= ( 1 << 31 ))
+#define		UART9_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 6 ))
+#define		UART10_CLK_EN()		(RCC->RCC_APB2ENR |= ( 1 << 7 ))
+
+
+
 
 /**** Clock disable macros ****/
 #define     GPIOA_CLK_DIS()    	  	(RCC->RCC_AHB1ENR &= ~( 1 << 0 ))
@@ -272,6 +285,16 @@ typedef struct{
 #define		I2C2_CLK_DIS()			(RCC->RCC_APB2ENR &= ~( 1 << 22 ))
 #define		I2C3_CLK_DIS()			(RCC->RCC_APB2ENR &= ~( 1 << 23 ))
 
+#define		USART1_CLK_DIS()		(RCC->RCC_APB2ENR &= ~( 1 << 4 ))
+#define		USART2_CLK_DIS()		(RCC->RCC_APB1ENR &= ~( 1 << 17 ))
+#define		USART3_CLK_DIS()		(RCC->RCC_APB1ENR &= ~( 1 << 18 ))
+#define		UART4_CLK_DIS()			(RCC->RCC_APB1ENR &= ~( 1 << 19 ))
+#define		UART5_CLK_DIS()			(RCC->RCC_APB1ENR &= ~( 1 << 20 ))
+#define		USART6_CLK_DIS()		(RCC->RCC_APB2ENR &= ~( 1 << 5 ))
+#define		UART7_CLK_DIS()			(RCC->RCC_APB1ENR &= ~( 1 << 30 ))
+#define		UART8_CLK_DIS()			(RCC->RCC_APB1ENR &= ~( 1 << 31 ))
+#define		UART9_CLK_DIS()			(RCC->RCC_APB2ENR &= ~( 1 << 6 ))
+#define		UART10_CLK_DIS()		(RCC->RCC_APB2ENR &= ~( 1 << 7 ))
 
 
 
@@ -550,10 +573,11 @@ typedef struct{
 *********************************************************************************/
 
 /*** Header files ***/
-#include "GPIO_drivers.h"
-#include "LCD_drivers.h"
-#include "SPI_drivers.h"
-#include "I2C_drivers.h"
+#include 	"GPIO_drivers.h"
+#include 	"LCD_drivers.h"
+#include 	"SPI_drivers.h"
+#include 	"I2C_drivers.h"
+#include 	"USART.h"
 
 /** End of Compiler directive ***/
 #endif /* STM32F413ZHT6_SPECIFIC_H_ */
