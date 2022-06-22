@@ -64,7 +64,7 @@ int main(void)
 	LCD.LCD_D7.pin = 7;
 
 	// initialize the designated pins to GPIO outputs
-	LCD_Init(&LCD);
+	LCD_Pin_Init(&LCD);
 
 
 

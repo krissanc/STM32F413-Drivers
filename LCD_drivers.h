@@ -36,7 +36,7 @@ typedef struct
 
 // Function Prototypes
 
-void LCD_Init(LCD_PINOUT_t *pLCD);
+void LCD_Pin_Init(LCD_PINOUT_t *pLCD);
 void LCD_Write(uint8_t data);
 
 

@@ -18,7 +18,7 @@
 // example: LCD_Init(PA4, PA5, PA6, PC5, PC6, PC7, PC8)
 // - so 1st parameter initializes desired MCU pin to the connected RS pin, and so forth
 
-void LCD_Init(LCD_PINOUT_t *pLCD)
+void LCD_Pin_Init(LCD_PINOUT_t *pLCD)
 {
 	// take the pins that are connected to the MCU: (#1 RS), (#2 Read/Write), (#3 Enable), (#4 D4), (#5 D5), (#6 D6), (#7 D7)
 	// and initialize them
