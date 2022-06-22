@@ -31,10 +31,43 @@
 int main(void)
 {
 
-
+	// Create a class of type LCD_PINOUT_t that holds all the desired pinout information
+	// This information is used in future functions
 	LCD_PINOUT_t LCD;
 
-	LCD_Init(&LCD, PB6, PD7, PA3, PC12, PC13, PB11, PA10);
+	// Designate the RS pins
+	LCD.LCD_RS.port = (uint32_t)GPIOA;
+	LCD.LCD_RS.pin = 7;
+
+	// Designate the RW pins
+	LCD.LCD_RW.port = (uint32_t)GPIOB;
+	LCD.LCD_RW.pin = 11;
+
+	// Designate the EN pins
+	LCD.LCD_EN.port = (uint32_t)GPIOC;
+	LCD.LCD_EN.pin = 11;
+
+	// Designate the D4 pins
+	LCD.LCD_D4.port = (uint32_t)GPIOD;
+	LCD.LCD_D4.pin = 4;
+
+	// Designate the D5 pins
+	LCD.LCD_D5.port = (uint32_t)GPIOD;
+	LCD.LCD_D5.pin = 5;
+
+	// Designate the D6 pins
+	LCD.LCD_D6.port = (uint32_t)GPIOD;
+	LCD.LCD_D6.pin = 6;
+
+	// Designate the D7 pins
+	LCD.LCD_D7.port = (uint32_t)GPIOD;
+	LCD.LCD_D7.pin = 7;
+
+	// initialize the designated pins to GPIO outputs
+	LCD_Init(&LCD);
+
+
+
 
 
 
